@@ -44,8 +44,11 @@ A minimal full-stack JavaScript Todo application intended for learning unit test
 │  ├─ taskStore.js   # pure task logic (no DOM) - unit test this
 │  └─ app.js         # DOM wiring: event listeners, rendering
 ├─ tests/            # Vitest unit tests
+├─ cypress/           # Cypress end-to-end tests
+├─ .github/workflows/ # GitHub Actions automated tests
 ├─ server.js         # Express static server + health/version
 ├─ vitest.config.js
+├─ cypress.config.js
 ├─ package.json
 └─ README.md
 ```
@@ -61,3 +64,4 @@ A minimal full-stack JavaScript Todo application intended for learning unit test
   unit test scope.
 - Run tests with `npm test` (single run) or `npm run test:watch` (watch mode).
 - E2E tests (Cypress): Start the app with `npm start`, then run `npx cypress run` in a second terminal. The Cypress config uses `http://localhost:5173` as its base URL. Use `/health` to check server readiness.
+- GitHub Actions runs the Vitest unit tests and Cypress end-to-end tests on pushes, pull requests, and manual workflow dispatches. Cypress starts the app and waits for `/health` before running.
