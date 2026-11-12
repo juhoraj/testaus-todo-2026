@@ -44,9 +44,26 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run Cypress tests
-        uses: cypress-io/github-action@v6
-        with:
-          start: npm start
-          wait-on: http-get://127.0.0.1:5173/health
-          wait-on-timeout: 120000
+      - name: Start app and run Cypress tests
+        run: |
+          npm start > /tmp/todo-app.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+
+          for attempt in {1..30}; do
+            if curl --fail --silent http://127.0.0.1:5173/health > /dev/null; then
+              npx cypress run
+              exit $?
+            fi
+
+            if ! kill -0 "$server_pid" 2>/dev/null; then
+              cat /tmp/todo-app.log
+              exit 1
+            fi
+
+            sleep 2
+          done
+
+          cat /tmp/todo-app.log
+          echo "App did not become ready at http://127.0.0.1:5173/health" >&2
+          exit 1
