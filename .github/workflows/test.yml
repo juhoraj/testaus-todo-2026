@@ -48,5 +48,5 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           start: npm start
-          wait-on: http://localhost:5173/health
+          wait-on: http-get://127.0.0.1:5173/health
           wait-on-timeout: 120000
