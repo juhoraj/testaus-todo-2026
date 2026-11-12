@@ -60,4 +60,4 @@ A minimal full-stack JavaScript Todo application intended for learning unit test
   `public/app.js` only wires the DOM to `taskStore.js` and is intentionally left out of
   unit test scope.
 - Run tests with `npm test` (single run) or `npm run test:watch` (watch mode).
-- E2E tests (Cypress): target user flows—create, update, complete/undo, delete; use `/health` to check server readiness.
+- E2E tests (Cypress): Start the app with `npm start`, then run `npx cypress run` in a second terminal. The Cypress config uses `http://localhost:5173` as its base URL. Use `/health` to check server readiness.
